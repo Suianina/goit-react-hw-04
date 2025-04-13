@@ -1,13 +1,12 @@
-import './App.css'
+import './App.css';
 import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import SearchBar from './components/SearchBar/SearchBar';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import { useEffect, useState } from 'react';
 import { getData } from './dataPhotos/getData';
-import { ClipLoader } from 'react-spinners';
+import Loader from './components/Loader/Loader';
 import ImageModal from './components/ImageModal/ImageModal';
-
 
 function App() {
   const [images, setImages] = useState([]);
@@ -16,7 +15,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [selectedImage, setSelectedImage] = useState(null);
- 
+
   const fetchImages = async (searchQuery, pageNumber = 1) => {
     try {
       setLoading(true);
@@ -27,7 +26,7 @@ function App() {
       if (pageNumber === 1) {
         setImages(response.data.results);
       } else {
-        setImages(prevImages => [...prevImages, ...response.data.results])
+        setImages(prevImages => [...prevImages, ...response.data.results]);
       }
 
       if (response.data.total_pages > pageNumber) {
@@ -66,29 +65,18 @@ function App() {
 
   return (
     <>
-      <div className='container'>
+      <div className="container">
         <SearchBar onSubmit={handleSearch} />
         {error && <ErrorMessage error={error} />}
-        {loading && (
-          <ClipLoader
-            visible={true}
-            height="100"
-            width="150"
-            color="#4fa94d"
-            ariaLabel="progress-bar-loading"
-            borderColor="#fbd4e1"
-            wrapperClass="loaderWrapper"
-          />)}
-        {images.length > 0 && <ImageGallery images={images} onOpen={onOpen}/>}
-        {images.length > 0 && page && !loading && <LoadMoreBtn onLoadMore={onLoadMore} />}
+        {loading && <Loader />}
+        {images.length > 0 && <ImageGallery images={images} onOpen={onOpen} />}
+        {images.length > 0 && page && !loading && (
+          <LoadMoreBtn onLoadMore={onLoadMore} />
+        )}
       </div>
-      <ImageModal
-        isOpen={!!selectedImage}
-        image={selectedImage}
-        onClose={onClose}
-      />
+      <ImageModal isOpen={!!selectedImage} image={selectedImage} onClose={onClose} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
