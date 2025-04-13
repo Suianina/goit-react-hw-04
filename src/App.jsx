@@ -5,7 +5,7 @@ import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import ImageGallery from './components/ImageGallery/ImageGallery';
 import { useEffect, useState } from 'react';
 import { getData } from './dataPhotos/getData';
-import { ProgressBar } from 'react-loader-spinner';
+import { ClipLoader } from 'react-spinners';
 import ImageModal from './components/ImageModal/ImageModal';
 
 
@@ -70,7 +70,7 @@ function App() {
         <SearchBar onSubmit={handleSearch} />
         {error && <ErrorMessage error={error} />}
         {loading && (
-          <ProgressBar
+          <ClipLoader
             visible={true}
             height="100"
             width="150"
